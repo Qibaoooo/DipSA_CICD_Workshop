@@ -23,29 +23,36 @@ jobs:
           vuln-type: 'os,library'
           severity: 'HIGH'
           output: 'trivy-output.txt'
+
       - run: cat trivy-output.txt
         if: ${{ always() }}
-
-      - name: Send GitHub Action trigger data to Slack workflow
-        id: slack
-        uses: slackapi/slack-github-action@v1.24.0
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
+      - uses: actions/upload-artifact@v3
+        if: ${{ always() }}
         with:
-          payload-file-path: "trivy-output.txt"
+          name: trivy-output
+          path: trivy-output.txt
 
 
-  # push:
-  #   runs-on: ubuntu-latest
-  #   if: ${{ always() }}
-  #   needs: scan
+  send-notification:
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: scan
     
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - uses: actions/download-artifact@v3
-  #     with:
-  #       name: trivy-output
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/download-artifact@v3
+      with:
+        name: trivy-output
 
-  #   - name: Test
-  #     run: cat trivy-output.txt
-    
+    - name: Test
+      run: cat trivy-output.txt
+
+    - name: Send GitHub Action trigger data to Slack workflow
+      id: slack
+      uses: slackapi/slack-github-action@v1.24.0
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
+      with:
+        payload-file-path: "trivy-output.txt"
+
+
