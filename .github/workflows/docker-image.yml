@@ -21,9 +21,10 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
-          severity: 'CRITICAL'
+          severity: 'HIGH'
           output: 'trivy-output.txt'
       - uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: trivy-output
           path: trivy-output.txt
