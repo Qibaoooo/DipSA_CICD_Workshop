@@ -23,6 +23,10 @@ jobs:
           vuln-type: 'os,library'
           severity: 'HIGH'
           output: 'trivy-output.txt'
+      - uses: actions/upload-artifact@v3
+        with:
+          name: trivy-output
+          path: trivy-output.txt
       
   push:
     runs-on: ubuntu-latest
@@ -31,7 +35,10 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
-    
+    - uses: actions/download-artifact@v3
+      with:
+        name: trivy-output
+
     - name: Test
       run: cat trivy-output.txt
     
