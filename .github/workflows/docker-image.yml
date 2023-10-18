@@ -26,6 +26,8 @@ jobs:
       
   push:
     runs-on: ubuntu-latest
+    needs: scan
+    
     steps:
     - uses: actions/checkout@v3
     
