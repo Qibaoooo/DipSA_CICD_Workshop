@@ -22,9 +22,13 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'HIGH'
+          output: 'trivy-output.txt'
       
-  # push:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - name: Build the Docker image
+  push:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Test
+      run: cat trivy-output.txt
+    
