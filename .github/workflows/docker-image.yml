@@ -23,8 +23,8 @@ jobs:
           vuln-type: 'os,library'
           severity: 'HIGH'
       
-  push:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
+  # push:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: Build the Docker image
