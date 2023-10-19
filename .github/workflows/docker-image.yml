@@ -12,10 +12,16 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Read Scan Severity Keyword
+        id: check-severity
         env:
           Greeting: Hello
           commitMsg: ${{ github.event.head_commit.message }}
-        run: echo $commitMsg
+        run: |
+          if [[ $commitMsg == *"CRITICAL"* ]]; then
+            echo "::check-severity name=severity::CRITICAL"
+          else
+            echo "::check-severity name=severity::HIGH"
+          fi
         
       - name: Run Trivy vulnerability scanner
         id: scan
@@ -27,7 +33,7 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
-          severity: 'CRITICAL'
+          severity: ${{ steps.check-severity.outputs.severity }}
           output: 'trivy-output.txt'
 
       - name: Slack Notification Failed
@@ -45,10 +51,10 @@ jobs:
           path: trivy-output.txt
           channel: test-submission
 
-      - name: Build an image from Dockerfile
-        run: |
-          docker build -t zhengdocka/dipsa_cicd_workshop/fortunes:${{ github.sha }} .    
+      # - name: Build an image from Dockerfile
+      #   run: |
+      #     docker build -t zhengdocka/dipsa_cicd_workshop/fortunes:${{ github.sha }} .    
 
-      - run: cat trivy-output.txt
-        if: ${{ always() }}
+      # - run: cat trivy-output.txt
+      #   if: ${{ always() }}
 
