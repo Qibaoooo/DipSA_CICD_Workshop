@@ -79,7 +79,6 @@ jobs:
           tags: zhengdocka/dipsa_cicd_workshop:${{ github.sha }}
 
       - run: echo ${{ steps.build-push.outputs.digest }}
-      - run: echo ${{ steps.build-push.outputs.metadata }}
 
       - name: Sign image with a key
         run: |
