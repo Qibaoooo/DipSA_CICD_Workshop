@@ -22,6 +22,7 @@ jobs:
           else
             echo "severity=HIGH" >> "$GITHUB_OUTPUT"
           fi
+
         
       - name: Run Trivy vulnerability scanner
         id: scan
