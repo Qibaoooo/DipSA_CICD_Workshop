@@ -10,6 +10,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Read Scan Severity Keyword
+        env:
+          Greeting: Hello
+          commit-msg: ${{ github.event.head_commit.message }}
+        run: echo $commit-msg
         
       - name: Run Trivy vulnerability scanner
         id: scan
