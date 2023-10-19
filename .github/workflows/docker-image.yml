@@ -95,7 +95,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
-          SLACK_MESSAGE: "*Name*: test\n *Email*: abc@gmail.com\n"
+          SLACK_MESSAGE: "*Name*: test\n *MatriculationNumber*:A1234567\n *Email*: abc@gmail.com\n *Repository* :${{ github.server_url }}/${{ github.repository }}\n *DockerHubURL*: https://hub.docker.com/r/hi"
 
 
 
