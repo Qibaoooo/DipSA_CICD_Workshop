@@ -15,7 +15,8 @@ jobs:
         id: scan
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'zhengdocka/dipsa_cicd_workshop/fortunes:${{ github.sha }}'
+          scan-type: 'fs'
+          scan-ref: '.'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
