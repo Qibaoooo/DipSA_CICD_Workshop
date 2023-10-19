@@ -81,7 +81,7 @@ jobs:
 
       - name: Sign image with a key
         run: |
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
+          cosign sign --yes --key "${COSIGN_PRIVATE_KEY}" "${TAGS}@${DIGEST}"
         env:
           TAGS: "zhengdocka/dipsa_cicd_workshop"
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
