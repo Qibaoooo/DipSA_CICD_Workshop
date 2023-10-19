@@ -81,7 +81,7 @@ jobs:
 
       - name: Sign image with a key
         run: |
-          echo ${{ secrets.COSIGN_PRIVATE_KEY }} > cosign.key
+          echo "${{ secrets.COSIGN_PRIVATE_KEY }}" > cosign.key
           cat cosign.key
           head cosign.key
           cosign sign --verbose --yes --key cosign.key "${TAGS}@${DIGEST}"
