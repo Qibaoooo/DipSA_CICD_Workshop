@@ -5,62 +5,36 @@ on:
     branches: [ "main" ]
 
 jobs:
-  # scan:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
-  #     - name: Build an image from Dockerfile
-  #       run: |
-  #         docker build -t zhengdocka/dipsa_cicd_workshop/fortunes:${{ github.sha }} .
-  #     - name: Run Trivy vulnerability scanner
-  #       uses: aquasecurity/trivy-action@master
-  #       with:
-  #         image-ref: 'zhengdocka/dipsa_cicd_workshop/fortunes:${{ github.sha }}'
-  #         format: 'table'
-  #         exit-code: '1'
-  #         ignore-unfixed: true
-  #         vuln-type: 'os,library'
-  #         severity: 'HIGH'
-  #         output: 'trivy-output.txt'
-
-  #     - run: cat trivy-output.txt
-  #       if: ${{ always() }}
-  #     - uses: actions/upload-artifact@v3
-  #       if: ${{ always() }}
-  #       with:
-  #         name: trivy-output
-  #         path: trivy-output.txt
-
-
-  send-notification:
+  scan:
     runs-on: ubuntu-latest
-    if: ${{ always() }}
-    # needs: scan
-    
     steps:
-    # - uses: actions/checkout@v3
-    # - uses: actions/download-artifact@v3
-    #   with:
-    #     name: trivy-output
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Run Trivy vulnerability scanner
+        id: scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'zhengdocka/dipsa_cicd_workshop/fortunes:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'HIGH'
+          output: 'trivy-output.txt'
 
-    # - name: Test
-    #   run: cat trivy-output.txt
+      - name: Upload output.txt
+        if: steps.scan.outcome != 'success'
+        uses: adrey/slack-file-upload-action@master
+        with:
+          token: ${{ secrets.SLACK_TOKEN }}
+          path: trivy-output.txt
+          channel: test-submission
 
-    - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
+      - name: Build an image from Dockerfile
+        run: |
+          docker build -t zhengdocka/dipsa_cicd_workshop/fortunes:${{ github.sha }} .    
 
-    - name: Send custom JSON data to Slack workflow
-      id: slack
-      uses: slackapi/slack-github-action@v1.24.0
-      with:
-        # This data can be any valid JSON from a previous step in the GitHub Action
-        payload: |
-          {
-            "text": "test"
-          }
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
+      - run: cat trivy-output.txt
+        if: ${{ always() }}
 
