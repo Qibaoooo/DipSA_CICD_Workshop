@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  scan:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -28,14 +28,14 @@ jobs:
         if: always() &&  (steps.scan.outcome == 'failure')
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
+          # SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
           SLACK_MESSAGE: 'Failed trivy scan, see report for details'
           
       - name: Upload output.txt
         if: always() && (steps.scan.outcome == 'failure')
         uses: adrey/slack-file-upload-action@master
         with:
-          token: ${{ secrets.SLACK_TOKEN }}
+          # token: ${{ secrets.SLACK_TOKEN }}
           path: trivy-output.txt
           channel: test-submission
 
