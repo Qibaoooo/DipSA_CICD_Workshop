@@ -85,11 +85,11 @@ jobs:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
           DIGEST: ${{ steps.build-push.outputs.digest }}
 
-      # - name: Slack Notification Success
-      #   uses: rtCamp/action-slack-notify@v2
-      #   env:
-      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
-      #     SLACK_MESSAGE: ''
+      - name: Slack Notification Success
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
+          SLACK_MESSAGE: 'Name: test\n Email: abc@gmail.com\n'
 
       # - run: cat trivy-output.txt
       #   if: ${{ always() }}
