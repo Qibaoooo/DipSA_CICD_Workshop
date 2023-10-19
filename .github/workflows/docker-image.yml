@@ -22,7 +22,6 @@ jobs:
           else
             echo "severity=HIGH" >> "$GITHUB_OUTPUT"
           fi
-
         
       - name: Run Trivy vulnerability scanner
         id: scan
@@ -97,6 +96,5 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
           SLACK_MESSAGE: "*Name*: Luo Zheng\n *MatriculationNumber*:e1216756\n *Email*: e1216756@u.nus.edu\n *Repository* :${{ github.server_url }}/${{ github.repository }}\n *DockerHubURL*: https://hub.docker.com/repository/docker/zhengdocka/dipsa_cicd_workshop/"
-
 
 
