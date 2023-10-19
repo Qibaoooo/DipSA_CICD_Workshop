@@ -18,9 +18,9 @@ jobs:
           commitMsg: ${{ github.event.head_commit.message }}
         run: |
           if [[ $commitMsg == *"CRITICAL"* ]]; then
-            echo "::check-severity name=severity::CRITICAL"
+            echo "severity=CRITICAL" >> "$GITHUB_OUTPUT"
           else
-            echo "::check-severity name=severity::HIGH"
+            echo "severity=HIGH" >> "$GITHUB_OUTPUT"
           fi
         
       - name: Run Trivy vulnerability scanner
