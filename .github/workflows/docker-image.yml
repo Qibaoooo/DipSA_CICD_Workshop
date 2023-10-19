@@ -83,7 +83,7 @@ jobs:
         run: |
           echo "$COSIGN_PRIVATE_KEY" > cosign.key
           cat cosign.key
-          cosign sign --verbose --yes --key cosign.key "${TAGS}@${DIGEST}"
+          cosign sign --verbose --yes --key ${{ secrets.COSIGN_PRIVATE_KEY }} "${TAGS}@${DIGEST}"
         env:
           TAGS: "zhengdocka/dipsa_cicd_workshop"
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
