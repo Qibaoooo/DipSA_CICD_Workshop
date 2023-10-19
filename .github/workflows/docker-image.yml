@@ -25,14 +25,14 @@ jobs:
           output: 'trivy-output.txt'
 
       - name: Slack Notification Failed
-        if: steps.scan.outcome != 'failure'
+        if: always() &&  (steps.scan.outcome == 'failure')
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
           SLACK_MESSAGE: 'Failed trivy scan, see report for details'
           
       - name: Upload output.txt
-        if: steps.scan.outcome != 'failure'
+        if: always() && (steps.scan.outcome == 'failure')
         uses: adrey/slack-file-upload-action@master
         with:
           token: ${{ secrets.SLACK_TOKEN }}
