@@ -52,7 +52,7 @@ jobs:
 
       - name: Build an image from Dockerfile
         run: |
-          docker build -t zhengdocka/dipsa_cicd_workshop/fortunes:${{ github.sha }} .
+          docker build -t zhengdocka/dipsa_cicd_workshop:${{ github.sha }} .
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
