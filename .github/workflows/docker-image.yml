@@ -67,12 +67,23 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
           
       - name: Build and push
+        id: build-push
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: zhengdocka/dipsa_cicd_workshop:${{ github.sha }}
 
+      - run: ${{ steps.build-push.outputs.digest }}
+
+      - name: Sign image with a key
+        run: |
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
+        env:
+          TAGS: dipsa_cicd_workshop
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+          DIGEST: ${{ steps.build-push.outputs.digest }}
 
       # - run: cat trivy-output.txt
       #   if: ${{ always() }}
