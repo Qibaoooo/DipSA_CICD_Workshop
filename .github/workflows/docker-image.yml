@@ -71,7 +71,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: zhengdocka/dipsa_cicd_workshop/fortunes:${{ github.sha }}
+          tags: zhengdocka/dipsa_cicd_workshop:${{ github.sha }}
 
 
       # - run: cat trivy-output.txt
