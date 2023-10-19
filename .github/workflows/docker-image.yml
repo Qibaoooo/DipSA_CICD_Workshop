@@ -94,6 +94,5 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
           SLACK_MESSAGE: 'Name: test\n Email: abc@gmail.com\n'
 
-      # - run: cat trivy-output.txt
-      #   if: ${{ always() }}
+
 
