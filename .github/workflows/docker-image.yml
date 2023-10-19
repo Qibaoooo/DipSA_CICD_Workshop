@@ -32,8 +32,6 @@ jobs:
           scan-ref: '.'
           format: 'table'
           exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
           severity: ${{ steps.check-severity.outputs.severity }}
           output: 'trivy-output.txt'
 
@@ -52,9 +50,9 @@ jobs:
           path: trivy-output.txt
           channel: test-submission
 
-      # - name: Build an image from Dockerfile
-      #   run: |
-      #     docker build -t zhengdocka/dipsa_cicd_workshop/fortunes:${{ github.sha }} .    
+      - name: Build an image from Dockerfile
+        run: |
+          docker build -t zhengdocka/dipsa_cicd_workshop/fortunes:${{ github.sha }} .    
 
       # - run: cat trivy-output.txt
       #   if: ${{ always() }}
