@@ -74,7 +74,7 @@ jobs:
           push: true
           tags: zhengdocka/dipsa_cicd_workshop:${{ github.sha }}
 
-      - run: ${{ steps.build-push.outputs.digest }}
+      - run: echo ${{ steps.build-push.outputs.digest }}
 
       - name: Sign image with a key
         run: |
@@ -84,6 +84,12 @@ jobs:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
           DIGEST: ${{ steps.build-push.outputs.digest }}
+
+      # - name: Slack Notification Success
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
+      #     SLACK_MESSAGE: ''
 
       # - run: cat trivy-output.txt
       #   if: ${{ always() }}
