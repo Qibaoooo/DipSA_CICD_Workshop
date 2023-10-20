@@ -38,7 +38,7 @@ jobs:
         if: always() &&  (steps.scan.outcome == 'failure')
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_MESSAGE: 'Failed trivy scan, see report for details'
           
       - name: Upload output.txt
@@ -47,7 +47,7 @@ jobs:
         with:
           token: ${{ secrets.SLACK_TOKEN }}
           path: trivy-output.txt
-          channel: test-submission
+          channel: submission
 
       - name: Build an image from Dockerfile
         run: |
@@ -93,7 +93,7 @@ jobs:
       - name: Slack Notification Success
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_TEST }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_MESSAGE: "*Name*: Luo Zheng\n *MatriculationNumber*:e1216756\n *Email*: e1216756@u.nus.edu\n *Repository* :${{ github.server_url }}/${{ github.repository }}\n *DockerHubURL*: https://hub.docker.com/repository/docker/zhengdocka/dipsa_cicd_workshop/"
 
 
