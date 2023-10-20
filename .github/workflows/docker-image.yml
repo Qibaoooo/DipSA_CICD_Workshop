@@ -4,7 +4,7 @@ on:
     branches:
       - 'v[0-9]*\.[0-9]*'
 
-jobs:
+jobs:e
   build:
     if: ${{ startsWith(github.event.head_commit.message, '#NORUN') == false }}
     runs-on: ubuntu-latest
@@ -97,6 +97,7 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_MESSAGE: "*Name*: Luo Zheng\n *MatriculationNumber*:e1216756\n *Email*: e1216756@u.nus.edu\n *Repository* :${{ github.server_url }}/${{ github.repository }}\n *DockerHubURL*: https://hub.docker.com/repository/docker/zhengdocka/dipsa_cicd_workshop/"
+
 
 
 
